@@ -2,7 +2,7 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.declarativeNetRequest.updateDynamicRules({
     removeRuleIds: [1, 2, 3],
     addRules: [
-      // если tag уже есть — ничего не делаем
+      // 1. если уже есть tag= — ничего не делаем
       {
         id: 1,
         priority: 1,
@@ -12,42 +12,33 @@ chrome.runtime.onInstalled.addListener(() => {
           resourceTypes: ["main_frame"]
         }
       },
-      // если есть параметры, но нет tag
+      // 2. если есть параметры, но нет tag= — редирект на фиксированный URL
       {
         id: 2,
         priority: 1,
         action: {
-          type: "modifyHeaders",
-          requestHeaders: [
-            {
-              header: "Location",
-              operation: "set",
-              value: "https://www.amazon.com/?tag=smartcashba04-20"
-            }
-          ]
+          type: "redirect",
+          redirect: {
+            url: "https://www.amazon.com/somepage?existing=params&tag=smartcashba04-20"
+          }
         },
         condition: {
           urlFilter: "?",
-          excludedRequestHeaders: ["tag="],
           resourceTypes: ["main_frame"]
         }
       },
-      // если нет параметров вообще
+      // 3. если нет параметров вообще — редирект на фиксированный URL
       {
         id: 3,
         priority: 1,
         action: {
-          type: "modifyHeaders",
-          requestHeaders: [
-            {
-              header: "Location",
-              operation: "set",
-              value: "https://www.amazon.com/?tag=smartcashba04-20"
-            }
-          ]
+          type: "redirect",
+          redirect: {
+            url: "https://www.amazon.com/somepage?tag=smartcashba04-20"
+          }
         },
         condition: {
-          urlFilter: "",
+          urlFilter: "https://www.amazon.com/somepage",
           resourceTypes: ["main_frame"]
         }
       }
