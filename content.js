@@ -1,36 +1,20 @@
-// content.js
+document.addEventListener('click', (e) => {
+  const link = e.target.closest('a');
+  if (!link || !link.href.includes('amazon.com')) return;
 
-function getPrice() {
-  const priceEl = document.querySelector("#priceblock_ourprice, #priceblock_dealprice");
-  if (!priceEl) return null;
-  const priceText = priceEl.innerText.replace(/[^0-9.]/g, "");
-  return parseFloat(priceText);
-}
+  const url = new URL(link.href);
+  if (url.searchParams.get('tag') === 'smartcashba04-20') {
+    console.log('Affiliate click detected:', url.href);
 
-function highlightBestPrice(price) {
-  const el = document.querySelector("#priceblock_ourprice, #priceblock_dealprice");
-  if (el) {
-    el.style.backgroundColor = "#c2f0c2";
-    el.title = "This is the best price detected by Cashback Extension!";
+    // Отправляем клик на backend
+    fetch('https://your-backend.com/log-click', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userId: chrome.runtime.id, // можно использовать уникальный id расширения или сгенерированный внутренний ID
+        url: url.href,
+        timestamp: Date.now()
+      })
+    });
   }
-}
-
-function addAffiliateLink() {
-  const link = document.querySelector("#buy-now-button, #add-to-cart-button");
-  if (link) {
-    const url = new URL(link.href);
-    url.searchParams.set("tag", "smartcashba04-20");
-    link.href = url.toString();
-  }
-}
-
-function main() {
-  const price = getPrice();
-  if (price) {
-    highlightBestPrice(price);
-    chrome.runtime.sendMessage({ type: "PRICE_CHECK", price: price });
-    addAffiliateLink();
-  }
-}
-
-main();
+});
