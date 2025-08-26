@@ -1,20 +1,14 @@
 {
   "manifest_version": 3,
-  "name": "Amazon Cashback Extension",
+  "name": "Amazon Tag Injector",
   "version": "1.0",
-  "description": "Automatically adds Amazon affiliate ID to links",
+  "description": "Добавляет тег партнерской программы ко всем Amazon ссылкам",
   "permissions": [
-    "declarativeNetRequest",
-    "declarativeNetRequestWithHostAccess",
-    "storage"
-  ],
-  "host_permissions": [
-    "*://www.amazon.com/*"
+    "webRequest",
+    "webRequestBlocking",
+    "https://www.amazon.com/*"
   ],
   "background": {
     "service_worker": "background.js"
-  },
-  "action": {
-    "default_title": "Amazon Cashback Active"
   }
 }
