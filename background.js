@@ -24,7 +24,7 @@ chrome.runtime.onInstalled.addListener(() => {
         action: {
           type: "redirect",
           redirect: {
-            regexSubstitution: "\\1&tag=smartcashba04-21"
+            regexSubstitution: "\\1&tag=smartcashba04-20"
           }
         },
         condition: {
