@@ -8,7 +8,7 @@ chrome.runtime.onInstalled.addListener(() => {
         priority: 1,
         action: { type: "allow" },
         condition: {
-          regexFilter: "^(https://www\\.amazon\\.com/.*[?&]tag=)",
+          urlFilter: "tag=",
           resourceTypes: ["main_frame"]
         }
       },
@@ -17,13 +17,18 @@ chrome.runtime.onInstalled.addListener(() => {
         id: 2,
         priority: 1,
         action: {
-          type: "redirect",
-          redirect: {
-            regexSubstitution: "\\1&tag=smartcashba04-20"
-          }
+          type: "modifyHeaders",
+          requestHeaders: [
+            {
+              header: "Location",
+              operation: "set",
+              value: "https://www.amazon.com/?tag=smartcashba04-20"
+            }
+          ]
         },
         condition: {
-          regexFilter: "^(https://www\\.amazon\\.com/[^?]+\\?(?!.*tag=).*)$",
+          urlFilter: "?",
+          excludedRequestHeaders: ["tag="],
           resourceTypes: ["main_frame"]
         }
       },
@@ -32,13 +37,17 @@ chrome.runtime.onInstalled.addListener(() => {
         id: 3,
         priority: 1,
         action: {
-          type: "redirect",
-          redirect: {
-            regexSubstitution: "\\1?tag=smartcashba04-20"
-          }
+          type: "modifyHeaders",
+          requestHeaders: [
+            {
+              header: "Location",
+              operation: "set",
+              value: "https://www.amazon.com/?tag=smartcashba04-20"
+            }
+          ]
         },
         condition: {
-          regexFilter: "^(https://www\\.amazon\\.com/[^?]+)$",
+          urlFilter: "",
           resourceTypes: ["main_frame"]
         }
       }
