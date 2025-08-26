@@ -1,15 +1,19 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Amazon Cashback Extension",
   "version": "1.0",
   "description": "Tracks Amazon links and adds affiliate cashback",
   "permissions": [
-    "webRequest",
-    "webRequestBlocking",
+    "declarativeNetRequest",
+    "declarativeNetRequestWithHostAccess"
+  ],
+  "host_permissions": [
     "*://www.amazon.com/*"
   ],
   "background": {
-    "scripts": ["background.js"],
-    "persistent": true
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Amazon Cashback Extension"
   }
 }
