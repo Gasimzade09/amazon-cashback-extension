@@ -19,7 +19,7 @@ function addAffiliateLink() {
   const link = document.querySelector("#buy-now-button, #add-to-cart-button");
   if (link) {
     const url = new URL(link.href);
-    url.searchParams.set("tag", "YOUR_TRACKING_ID");
+    url.searchParams.set("tag", "smartcashba04-20");
     link.href = url.toString();
   }
 }
